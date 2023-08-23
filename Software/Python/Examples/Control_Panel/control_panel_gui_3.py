@@ -60,14 +60,12 @@ class MainPanel(wx.Panel):
 
 
         title_font = wx.Font( 15,
-                        wx.FONTSTYLE_NORMAL,
                         wx.FONTFAMILY_DEFAULT,
                         wx.FONTSTYLE_NORMAL,
                         wx.FONTWEIGHT_BOLD)
         title_font.SetUnderlined(False)
 
         small_font = wx.Font( 10,
-                        wx.FONTSTYLE_NORMAL,
                         wx.FONTFAMILY_DEFAULT,
                         wx.FONTSTYLE_NORMAL,
                         wx.FONTWEIGHT_BOLD)
@@ -106,9 +104,9 @@ class MainPanel(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.right_led_button_OnButtonClick, right_led_button)
 
         led_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        led_sizer.Add(left_led_button, 0, wx.ALIGN_LEFT|wx.TOP,9)
-        led_sizer.AddSpacer(70)
-        led_sizer.Add(right_led_button, 0, wx.ALIGN_RIGHT|wx.TOP,9)
+        led_sizer.Add(left_led_button, 0, wx.TOP,9)
+        led_sizer.AddSpacer(130)
+        led_sizer.Add(right_led_button, 0, wx.TOP,9)
 
         eyes_sizer = wx.BoxSizer(wx.HORIZONTAL)
         left_eye_button = wx.Button(self, label="Left Eye ")
@@ -156,25 +154,25 @@ class MainPanel(wx.Panel):
         self.battery_label = wx.StaticText(self, label=str(round(v,1))+"V")
         batterySizer.Add(battery_button, 0, wx.ALIGN_LEFT )
         batterySizer.AddSpacer(22)
-        batterySizer.Add( self.battery_label,0, wx.ALIGN_CENTER|wx.EXPAND )
+        batterySizer.Add( self.battery_label,0, wx.EXPAND )
 
         firmwareSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.firmware_label = wx.StaticText(self,-1,label="Firmware Version: "+str(firmware_version))
-        firmwareSizer.Add( self.firmware_label, 0, wx.ALIGN_CENTER|wx.EXPAND )
+        firmwareSizer.Add( self.firmware_label, 0, wx.EXPAND )
 
         SerialNoSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.serial_label = wx.StaticText(self,-1,label="Serial Number: "+str(serial))
-        SerialNoSizer.Add( self.serial_label, 0, wx.ALIGN_CENTER|wx.EXPAND )
+        SerialNoSizer.Add( self.serial_label, 0, wx.EXPAND )
 
         tickSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.ticks_label = wx.StaticText(self,-1,label="Ticks per Motor: "+str(ticks))
-        tickSizer.Add( self.ticks_label, 0, wx.ALIGN_CENTER|wx.EXPAND )
+        tickSizer.Add( self.ticks_label, 0, wx.EXPAND )
 
         versionSizer = wx.BoxSizer(wx.HORIZONTAL)
         print(library_version)
         if library_version != "":
             self.version_label = wx.StaticText(self,-1,label="Driver Version: "+str(library_version))
-            versionSizer.Add( self.version_label, 0, wx.ALIGN_CENTER|wx.EXPAND )
+            versionSizer.Add( self.version_label, 0, wx.EXPAND )
 
         # Exit
         exit_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -182,7 +180,7 @@ class MainPanel(wx.Panel):
         exit_button.Bind(wx.EVT_BUTTON, self.onClose)
         self.msg_label = wx.StaticText(self, -1, size=(400,30), label="")
         exit_sizer.Add(self.msg_label, 1, wx.ALIGN_LEFT|wx.EXPAND)
-        exit_sizer.Add(exit_button, 0, wx.ALIGN_RIGHT|wx.RIGHT, 20)
+        exit_sizer.Add(exit_button, 0, wx.RIGHT, 20)
 
         # Fill remote control section
         control_sizer.Add(control_label, 0, wx.ALIGN_CENTER|wx.BOTTOM,10)
