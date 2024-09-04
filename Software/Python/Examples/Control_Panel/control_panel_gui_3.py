@@ -319,7 +319,7 @@ class MainPanel(wx.Panel):
 class MainFrame(wx.Frame):
     def __init__(self):
         wx.Log.SetVerbose(False)
-        wx.Frame.__init__(self, None, title='GoPiGo3 Control Panel', size=(440,640))
+        wx.Frame.__init__(self, None, title='GoPiGo3 Control Panel', size=(700,640))
         panel = MainPanel(self)
         self.Center()
 
