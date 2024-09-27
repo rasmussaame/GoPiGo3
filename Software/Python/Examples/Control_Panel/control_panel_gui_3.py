@@ -190,7 +190,7 @@ class MainPanel(wx.Panel):
         control_sizer.Add(middle_sizer, 0, wx.ALIGN_CENTER)
         control_sizer.Add(bwd_sizer, 0, wx.ALIGN_CENTER)
 
-        vital_extra_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        vital_extra_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Fill check buttons
         vital_signs_sizer.Add(vital_signs_label, 0, wx.ALIGN_LEFT|wx.BOTTOM, 10)
@@ -204,13 +204,16 @@ class MainPanel(wx.Panel):
         self.drive_forward_input_field = wx.TextCtrl(self, -1, "", (0, 0), (50, 30))
         confirm_drive_forward = wx.Button(self, label="Straight (cm)")
         confirm_drive_forward.Bind(wx.EVT_BUTTON, self.drive_forward_cm)
-        drive_forward_sizer.Add(self.drive_forward_input_field, 0, wx.LEFT|wx.TOP, 0, 0)
+
+        drive_forward_sizer.AddSpacer(175)
+        drive_forward_sizer.Add(self.drive_forward_input_field, 0, wx.LEFT|wx.BOTTOM, 0, 0)
         drive_forward_sizer.Add(confirm_drive_forward, 0, wx.LEFT, 10, 0)
 
         turn_deg_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.turn_deg_input_field = wx.TextCtrl(self, -1, "", (0, 0), (50, 30))
         confirm_turn_deg = wx.Button(self, label="Turn (deg)")
         confirm_turn_deg.Bind(wx.EVT_BUTTON, self.turn_degrees)
+        turn_deg_sizer.AddSpacer(175)
         turn_deg_sizer.Add(self.turn_deg_input_field, 0, wx.LEFT|wx.TOP, 0, 0)
         turn_deg_sizer.Add(confirm_turn_deg, 0, wx.LEFT, 10, 0)
 
@@ -220,13 +223,13 @@ class MainPanel(wx.Panel):
         robo1_sizer.Add(drive_forward_sizer, 0, wx.LEFT|wx.TOP, 0, 0)
         robo1_sizer.Add(turn_deg_sizer, 0, wx.LEFT|wx.TOP, 0, 0)
 
-        vital_extra_sizer.Add(vital_signs_sizer, 0, wx.LEFT|wx.TOP, 30, 40)
         vital_extra_sizer.Add(robo1_sizer, 0, wx.LEFT|wx.TOP, 30, 40)
+        vital_extra_sizer.Add(vital_signs_sizer, 0, wx.LEFT|wx.TOP, 30, 40)
         main_sizer.Add(control_sizer, 0, wx.LEFT|wx.TOP, 30, 20)
         main_sizer.Add(vital_extra_sizer, 0, wx.LEFT|wx.TOP, 0, 0)
 
         # main_sizer.Add(top_sizer, 0, wx.LEFT|wx.TOP, 30)
-        main_sizer.Add(bottom_sizer, 0, wx.LEFT|wx.TOP, 30)
+        # main_sizer.Add(bottom_sizer, 0, wx.LEFT|wx.TOP, 30)
         main_sizer.Add(exit_sizer, 1, wx.ALIGN_RIGHT|wx.TOP|wx.RIGHT, 10)
 
         self.SetSizerAndFit(main_sizer)
@@ -319,7 +322,7 @@ class MainPanel(wx.Panel):
 class MainFrame(wx.Frame):
     def __init__(self):
         wx.Log.SetVerbose(False)
-        wx.Frame.__init__(self, None, title='GoPiGo3 Control Panel', size=(700,640))
+        wx.Frame.__init__(self, None, title='GoPiGo3 Control Panel', size=(440,700))
         panel = MainPanel(self)
         self.Center()
 
