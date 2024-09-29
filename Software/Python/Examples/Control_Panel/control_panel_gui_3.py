@@ -145,7 +145,8 @@ class MainPanel(wx.Panel):
 
         # Vital Signs Values
 
-        vital_signs_label = wx.StaticText(self, -1, label="Vital Signs:")
+        vital_signs_label = wx.StaticText(self, -1, label="", size=wx.Size(380, 2))
+        vital_signs_label.SetBackgroundColour((100, 100, 100))
         vital_signs_label.SetFont(title_font)
 
         batterySizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -225,7 +226,7 @@ class MainPanel(wx.Panel):
 
         vital_extra_sizer.Add(robo1_sizer, 0, wx.LEFT|wx.TOP, 30, 40)
         vital_extra_sizer.Add(vital_signs_sizer, 0, wx.LEFT|wx.TOP, 30, 40)
-        main_sizer.Add(control_sizer, 0, wx.LEFT|wx.TOP, 30, 20)
+        main_sizer.Add(control_sizer, 0, wx.CENTER|wx.TOP, 5, 20)
         main_sizer.Add(vital_extra_sizer, 0, wx.LEFT|wx.TOP, 0, 0)
 
         # main_sizer.Add(top_sizer, 0, wx.LEFT|wx.TOP, 30)
@@ -322,7 +323,7 @@ class MainPanel(wx.Panel):
 class MainFrame(wx.Frame):
     def __init__(self):
         wx.Log.SetVerbose(False)
-        wx.Frame.__init__(self, None, title='GoPiGo3 Control Panel', size=(440,700))
+        wx.Frame.__init__(self, None, title='GoPiGo3 Control Panel', size=(440,630))
         panel = MainPanel(self)
         self.Center()
 
