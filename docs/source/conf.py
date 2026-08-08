@@ -21,13 +21,21 @@ import sys
 sys.path.insert(0, os.path.abspath('../../Software/Python'))
 sys.path.insert(0, os.path.abspath('../../DI_Sensors/Python'))
 
-from mock import Mock as MagicMock
+READTHEDOCS = os.environ.get('READTHEDOCS') == 'True'
+
+try:
+    from unittest.mock import Mock as MagicMock
+except ImportError:
+    from mock import Mock as MagicMock
+
 class Mock(MagicMock):
     @classmethod
     def __getattr__(cls, name):
             return MagicMock()
 
-MOCK_MODULES = ['spidev', 'fcntl', 'I2C_mutex', 'pigpio', 'di_sensors']
+# Do not mock spidev: letting the import fail keeps gopigo3 in
+# hardware-disconnected mode during docs builds.
+MOCK_MODULES = ['fcntl', 'I2C_mutex', 'pigpio', 'di_sensors']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # When building the documentation on Windows with graphviz in mind, use
@@ -52,8 +60,7 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx_rtd_theme']
 
 def _check_deps():
-    names = {"six": 'six',
-             "shutil": 'shutil',
+    names = {"shutil": 'shutil',
              "gopigo3": 'gopigo3',
              "easysensors": 'easysensors',
              "easygopigo3": 'easygopigo3'}
@@ -72,7 +79,6 @@ _check_deps()
 
 # Import only after checking for dependencies.
 import easygopigo3, gopigo3, easysensors
-import six
 
 # if six.PY2:
 #     from distutils.spawn import find_executable
@@ -105,7 +111,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'GoPiGo3'
-copyright = u'2020-2023, Modular Robotics'
+copyright = u'2020-2026, Modular Robotics'
 
 
 # The version info for the project you're documenting, acts as replacement for
@@ -122,7 +128,7 @@ copyright = u'2020-2023, Modular Robotics'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = "EN"
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -145,9 +151,12 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-import sphinx_rtd_theme
-html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+if sphinx_rtd_theme is not None:
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+else:
+    html_theme = 'alabaster'
+    html_theme_path = []
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
