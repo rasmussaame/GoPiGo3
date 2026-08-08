@@ -49,13 +49,13 @@
 #define ERROR_GROVE_TYPE_MISMATCH  -6
 #define ERROR_GROVE_DATA_ERROR     -7
 
-int spi_file_handle = -1;                    // SPI file handle
-struct spi_ioc_transfer spi_xfer_struct;     // SPI transfer struct
-uint8_t spi_array_out[LONGEST_SPI_TRANSFER]; // SPI out array
-uint8_t spi_array_in[LONGEST_SPI_TRANSFER];  // SPI in array
+static int spi_file_handle = -1;                    // SPI file handle
+static struct spi_ioc_transfer spi_xfer_struct;     // SPI transfer struct
+static uint8_t spi_array_out[LONGEST_SPI_TRANSFER]; // SPI out array
+static uint8_t spi_array_in[LONGEST_SPI_TRANSFER];  // SPI in array
 
 // Set up SPI. Open the file, and define the configuration.
-int spi_setup(){
+static int spi_setup(){
   spi_file_handle = open(SPIDEV_FILE_NAME, O_RDWR);
 
   if (spi_file_handle < 0){
@@ -71,7 +71,7 @@ int spi_setup(){
 }
 
 // Transfer length number of bytes. Write from outArray, read to inArray.
-int spi_transfer_array(uint8_t length, uint8_t *outArray, uint8_t *inArray){
+static int spi_transfer_array(uint8_t length, uint8_t *outArray, uint8_t *inArray){
   spi_xfer_struct.len = length;
   spi_xfer_struct.tx_buf = (unsigned long)outArray;
   spi_xfer_struct.rx_buf = (unsigned long)inArray;
@@ -84,13 +84,13 @@ int spi_transfer_array(uint8_t length, uint8_t *outArray, uint8_t *inArray){
 }
 
 // Function to call if an error occured that can not be resolved, such as failure to set up SPI
-void fatal_error(const char *error){
+static void fatal_error(const char *error){
   throw std::runtime_error(error);
 }
 
 //struct timespec _time;
-struct timeval _time;
-double get_time(){
+static struct timeval _time;
+static double get_time(){
   //clock_gettime(CLOCK_MONOTONIC_RAW, &_time);
   gettimeofday(&_time, NULL);
   return _time.tv_sec + (_time.tv_usec / 1000000);
@@ -252,30 +252,30 @@ class GoPiGo3{
     float WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * M_PI;  // pi from cmath
     float WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * M_PI;  // pi from cmath
     int   MOTOR_GEAR_RATIO         = 120;
-    int   ENCODER_TICKS_PER_ROTATION = 6;  // default GoPiGo3 has 6 ticks, 16 ticks if in .list_of_serial_numbers.pkl file
-    int   MOTOR_TICKS_PER_DEGREE     = ((MOTOR_GEAR_RATIO * ENCODER_TICKS_PER_ROTATION) / 360.0);  // ticks per degree of wheel shaft rotation
+    int   ENCODER_TICKS_PER_ROTATION = 6;  // default GoPiGo3 has 6 ticks, 16 ticks if in .gpg3_list_of_serial_numbers.pkl file
+    float MOTOR_TICKS_PER_DEGREE     = ((MOTOR_GEAR_RATIO * ENCODER_TICKS_PER_ROTATION) / 360.0);  // ticks per degree of wheel shaft rotation
 
-  // Confirm that the BrickPi3 is connected and up-to-date
+  // Confirm that the GoPiGo3 is connected and up-to-date
     int     detect(bool critical = true);
 
   // Get the manufacturer (should be "Dexter Industries")
     int     get_manufacturer(char *str);
-  // Get the board name (should be "BrickPi3")
+  // Get the board name (should be "GoPiGo3")
     int     get_board(char *str);
   // Get the hardware version number
     int     get_version_hardware(char *str);
   // Get the firmware version number
     int     get_version_firmware(char *str);
-  // Get the serial number ID that is unique to each BrickPi3
+  // Get the serial number ID that is unique to each GoPiGo3
     int     get_id(char *str);
 
 
   // Check if serial number in file of 16 tick GoPiGo3
-    bool    check_serial_number_for_16_ticks(std::string serial_file_path="/home/pi/Dexter/.list_of_serial_numbers.pkl");
+    bool    check_serial_number_for_16_ticks(std::string serial_file_path="~/.gpg3_list_of_serial_numbers.pkl");
   // Load wheel diameter, wheel base, ticks per revolution, motor gear ratio from file if exists
-    int     load_robot_constants(std::string config_file_path="/home/pi/Dexter/gpg3_config.json");
+    int     load_robot_constants(std::string config_file_path="~/.gpg3_config.json");
   // Save wheel diameter, wheel base, ticks per revolution, motor gear ratio to JSON file
-    int     save_robot_constants(std::string config_file_path="/home/pi/Dexter/gpg3_config.json");
+    int     save_robot_constants(std::string config_file_path="~/.gpg3_config.json");
   // Set new robot constant values and dependent constants
     int     set_robot_constants(float wheel_diameter, float wheel_base_width, int ticks, int motor_gear_ratio);
 

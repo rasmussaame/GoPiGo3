@@ -1,1 +1,27 @@
+# GoPiGo3 Pixy2 Lane Tracker Requirements
+# Python packages required for Pixy2 camera-based lane following
+
+# Option 1: If reusing an existing GoPiGo3 virtual environment
+# (mr-gopigo3 is already installed, so only install additional packages):
+#   source /path/to/gopigo3/venv/bin/activate
+#   pip install recordclass
+
+# Option 2: If creating a new virtual environment for this project:
+#   python3 -m venv venv
+#   source venv/bin/activate
+#   pip install -r requirements.txt
+
+# Core GoPiGo3 library
+mr-gopigo3
+
+# Lightweight data structure library
 recordclass
+
+# Hardware requirements:
+# - Pixy2 camera connected to GoPiGo3 SPI port
+# - Pixy2 configured with line detection settings
+
+# How to run:
+#   python pixy2_lane_follower.py
+# The robot follows lanes detected by the Pixy2 camera
+# Can also use Jupyter notebooks for training and dataset analysis
